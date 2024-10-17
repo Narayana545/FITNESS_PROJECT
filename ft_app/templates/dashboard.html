@@ -1,0 +1,62 @@
+{% extends 'base.html'%}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        .goal {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .completed {
+            background-color: #e0ffe0;
+        }
+        .in-progress {
+            background-color: #ffffe0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Dashboard</h1>
+
+    <h2>Goal Summary</h2>
+    <p>Total Goals: {{ total_goals }}</p>
+    <p>Goals Achieved: {{ achieved_goals }}</p>
+    <p>Goals In Progress: {{ in_progress_goals }}</p>
+
+    <h2>Your Goals</h2>
+    <ul>
+        {% for goal in goals %}
+        <li class="goal {% if goal.achieved %}completed{% else %}in-progress{% endif %}">
+            <strong>{{ goal.goal_name }}</strong> 
+            - Target: {{ goal.target_value }}
+            - Current Progress: {{ goal.current_value }}
+            {% if goal.achieved %}
+                <span style="color: green;"><strong>Achieved!</strong></span>
+            {% else %}
+                <a href="{% url 'achieve_goal' goal.id %}">Update Progress</a>
+            {% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+
+    <h2>Recent Achievements</h2>
+    <ul>
+        {% for achievement in recent_achievements %}
+        <li>{{ achievement.value }} achieved for {{ achievement.goal.goal_name }} on {{ achievement.date_achieved }}</li>
+        {% empty %}
+        <p>No recent achievements</p>
+        {% endfor %}
+    </ul>
+
+    <a href="{% url 'set_goal' %}">Set a New Goal</a>
+</body>
+</html>
+
+{% endblock %}

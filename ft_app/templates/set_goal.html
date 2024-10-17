@@ -1,0 +1,27 @@
+{% extends 'base.html'%}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Set Goal</title>
+</head>
+<body>
+    <h2>Set Your Fitness Goal</h2>
+    <form method="POST" style="width: 50%; margin: 40px auto; padding: 20px; border: 1px solid">
+        {% csrf_token %}
+        <label for="goal_name">Goal Name:</label><br>
+        <input type="text" name="goal_name" id="goal_name" required><br><br>
+        
+        <label for="target_value">Target Value (e.g., steps, km, workouts):</label><br>
+        <input type="number" name="target_value" id="target_value" required><br><br>
+        
+        <button type="submit">Set Goal</button>
+    </form>
+    <a href="{% url 'leaderboard' %}">View Leaderboard</a>
+</body>
+</html>
+
+{% endblock %}
